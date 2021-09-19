@@ -36,10 +36,8 @@ public class MyQueue<T> {
     }
 
     public void insert(T item) {
-        if (isFull()) {
-            //Расширение массива***
-            throw new RuntimeException("Queue isFull");
-        }
+        ensureCapacity(size+1);
+
         size++;
         list[end] = item;
         end = nextIndex(end);
@@ -64,5 +62,20 @@ public class MyQueue<T> {
 
     public boolean isFull() {
         return size == list.length;
+    }
+
+    private void ensureCapacity(int minCapacity) {
+        if (minCapacity < 0) throw new IllegalStateException("Illegal capacity");
+        if (minCapacity <= size) return;
+
+        int newCapacity = (int) (minCapacity * 1.5 + 1);
+        copyElements(newCapacity);
+    }
+
+    private void copyElements(int newCapacity) {
+      T[] temp = (T[]) new Object[newCapacity];
+      int startPosition = 0;
+      System.arraycopy(list,startPosition, temp,startPosition,size);
+      list = temp;
     }
 }
