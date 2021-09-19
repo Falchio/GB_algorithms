@@ -26,10 +26,8 @@ public class MyPriorityQueue<T extends Comparable<T>> {
     }
 
     public void insert(T item) {
-        if (isFull()) {
-            // расширение массива
-            throw new StackOverflowError();
-        }
+        ensureCapacity(size+1);
+
         list[size] = item;
         size++;
         int i = size - 1;
@@ -68,5 +66,20 @@ public class MyPriorityQueue<T extends Comparable<T>> {
         T temp = list[index1];
         list[index1] = list[index2];
         list[index2] = temp;
+    }
+
+    private void ensureCapacity(int minCapacity) {
+        if (minCapacity < 0) throw new IllegalStateException("Illegal min capacity");
+        if (minCapacity <= size) return;
+
+        int newCapacity = (int) (minCapacity * 1.5 + 1);
+        copyElements(newCapacity);
+    }
+
+    private void copyElements(int newCapacity) {
+        T[] temp = (T[]) new Object[newCapacity];
+        int startPosition = 0;
+        System.arraycopy(list,startPosition, temp,startPosition,size);
+        list = temp;
     }
 }

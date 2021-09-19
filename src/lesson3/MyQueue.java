@@ -65,7 +65,7 @@ public class MyQueue<T> {
     }
 
     private void ensureCapacity(int minCapacity) {
-        if (minCapacity < 0) throw new IllegalStateException("Illegal capacity");
+        if (minCapacity < 0) throw new IllegalStateException("Illegal min capacity");
         if (minCapacity <= size) return;
 
         int newCapacity = (int) (minCapacity * 1.5 + 1);
