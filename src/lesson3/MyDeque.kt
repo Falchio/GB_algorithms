@@ -2,11 +2,10 @@ package lesson3
 
 private const val DEFAULT_CAPACITY = 10
 
-class MyDeque<T>(private var capacity: Int = DEFAULT_CAPACITY) {
+class MyDeque<T>(capacity: Int = DEFAULT_CAPACITY) {
     private var array: Array<T?>
     private var size: Int = 0
     private var head: Int = 0
-    private var tail: Int = 0
 
 
     init {
@@ -67,10 +66,6 @@ class MyDeque<T>(private var capacity: Int = DEFAULT_CAPACITY) {
 
     fun size() = size
 
-
-    private fun nextIndex(index: Int): Int {
-        return (index + 1) % array.size
-    }
 
     private fun decremented(index: Int): Int = if (index == 0) array.lastIndex else index - 1
     private fun incremented(index: Int): Int = if (index == array.lastIndex) 0 else index + 1
