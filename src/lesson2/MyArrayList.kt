@@ -3,9 +3,9 @@ package lesson2
 
 private const val DEFAULT_CAPACITY = 10
 
-class MyArrayList<T : Comparable<T>>(private var capacity: Int = DEFAULT_CAPACITY) {
-    private var list: Array<T>
-    private var size: Int = 0
+data class MyArrayList<T : Comparable<T>>(var capacity: Int = DEFAULT_CAPACITY) : Cloneable {
+    var list: Array<T>
+    var size: Int = 0
 
     init {
         require(capacity > 0) { "capacity<=0" }
@@ -75,12 +75,12 @@ class MyArrayList<T : Comparable<T>>(private var capacity: Int = DEFAULT_CAPACIT
         return sb.toString()
     }
 
-    fun selectionSort(){
-        var min:Int
-        for ( i in 0 until size-1){
+    fun selectionSort() {
+        var min: Int
+        for (i in 0 until size - 1) {
             min = i
-            for( j in i+1 until size){
-                if (list[j] < list[min]){
+            for (j in i + 1 until size) {
+                if (list[j] < list[min]) {
                     min = j
                 }
             }
@@ -95,12 +95,12 @@ class MyArrayList<T : Comparable<T>>(private var capacity: Int = DEFAULT_CAPACIT
     }
 
     fun insertionSort() {
-        var key:T
-        for (i in 1 until size){
+        var key: T
+        for (i in 1 until size) {
             var j = i
             key = list[i]
-            while (j>0 && key<list[j-1]){
-                list[j] = list[j-1]
+            while (j > 0 && key < list[j - 1]) {
+                list[j] = list[j - 1]
                 j--
             }
             list[j] = key
@@ -112,7 +112,7 @@ class MyArrayList<T : Comparable<T>>(private var capacity: Int = DEFAULT_CAPACIT
         for (i in size - 1 downTo 1) {
             isSwap = false
             for (j in 0 until i) {
-                if ((list[j + 1]< list[j])) {
+                if ((list[j + 1] < list[j])) {
                     swap(j + 1, j)
                     isSwap = true
                 }
@@ -122,4 +122,13 @@ class MyArrayList<T : Comparable<T>>(private var capacity: Int = DEFAULT_CAPACIT
             }
         }
     }
+
+    public override fun clone(): MyArrayList<T> {
+        val myArrayList = MyArrayList<T>()
+        myArrayList.size = this.size
+        myArrayList.capacity = this.capacity
+        myArrayList.list = this.list.clone()
+        return myArrayList
+    }
+
 }
