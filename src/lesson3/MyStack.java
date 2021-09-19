@@ -26,10 +26,7 @@ public class MyStack<T> {
     }
 
     public void push(T item) {
-        if (isFull()) {
-            // расширение массива
-            throw new StackOverflowError();
-        }
+        ensureCapacity(size+1);
         list[size] = item;
         size++;
     }
@@ -53,9 +50,18 @@ public class MyStack<T> {
         return size == list.length;
     }
 
-    private void reCapacity(int newSize){
-        T[] temp = (T[]) new Object[newSize];
-        System.arraycopy(list, 0, temp, 0, size);
+    private void ensureCapacity(int minCapacity) {
+        if (minCapacity < 0) throw new IllegalStateException("Illegal min capacity");
+        if (minCapacity <= size) return;
+
+        int newCapacity = (int) (minCapacity * 1.5 + 1);
+        copyElements(newCapacity);
+    }
+
+    private void copyElements(int newCapacity) {
+        T[] temp = (T[]) new Object[newCapacity];
+        int startPosition = 0;
+        System.arraycopy(list,startPosition, temp,startPosition,size);
         list = temp;
     }
 }

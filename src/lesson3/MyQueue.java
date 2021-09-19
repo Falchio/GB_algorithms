@@ -75,7 +75,17 @@ public class MyQueue<T> {
     private void copyElements(int newCapacity) {
       T[] temp = (T[]) new Object[newCapacity];
       int startPosition = 0;
-      System.arraycopy(list,startPosition, temp,startPosition,size);
+      if (end>=begin){
+          end = end - begin;
+          System.arraycopy(list,begin, temp,startPosition,end-begin);
+          begin = 0;
+      } else {
+          System.arraycopy(list,begin, temp,startPosition, list.length-begin);
+          startPosition =  list.length-begin;
+          System.arraycopy(list,0, temp, startPosition,end);
+          begin  = 0;
+          end = size;
+      }
       list = temp;
     }
 }
