@@ -11,16 +11,28 @@ public class MyTreeMap<K extends Comparable<K>, V> {
         Node left;
         Node right;
         int size;
+        int height;
 
         public Node(K key, V value) {
             this.key = key;
             this.value = value;
             this.size = 1;
+            this.height = 0;
         }
     }
 
     public int size() {
         return size(root);
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node node) {
+        if (node == null) return 0;
+        if (node.right == null && node.left == null) return 0;
+        return 1 + Math.max(height(node.right), height(node.left));
     }
 
     private int size(Node node) {
@@ -81,8 +93,10 @@ public class MyTreeMap<K extends Comparable<K>, V> {
             node.value = value;
         } else if (cmp < 0) {
             node.left = put(node.left, key, value);
+            node.height = node.height + 1;
         } else {
             node.right = put(node.right, key, value);
+            node.height = node.height + 1;
         }
         node.size = size(node.left) + size(node.right) + 1;
         return node;
@@ -155,7 +169,7 @@ public class MyTreeMap<K extends Comparable<K>, V> {
             return "";
         }
         return toString(node.left) + " " +
-                node.key + "=" + node.value + " " +
+                node.key + "=" + node.value + " \n      " +
                 toString(node.right);
     }
 
