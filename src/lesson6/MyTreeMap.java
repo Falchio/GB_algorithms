@@ -169,9 +169,23 @@ public class MyTreeMap<K extends Comparable<K>, V> {
             return "";
         }
         return toString(node.left) + " " +
-                node.key + "=" + node.value + " \n      " +
+                node.key + "=" + node.value + " " +
                 toString(node.right);
     }
 
+    public boolean isBalanced(){
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node node) {
+        if (node == null) return true;
+        int rightHeight=height(node.right);
+        int leftHeight = height(node.left);
+
+        return Math.abs(rightHeight - leftHeight) <=1
+                && isBalanced(node.left)
+                && isBalanced(node.right);
+
+    }
 
 }
